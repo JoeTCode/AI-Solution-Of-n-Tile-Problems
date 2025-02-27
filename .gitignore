@@ -1,0 +1,7 @@
+# Ignore PyCharm settings
+.idea/
+*.iml
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
