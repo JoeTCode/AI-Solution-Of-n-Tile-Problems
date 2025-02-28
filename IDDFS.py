@@ -98,7 +98,7 @@ def dfs_rec_with_set(path, visited, depth, goal):
                     return solution, count
     return None, count
 
-def id_dfs_rec_with_set(path, max_depth, case, goal):
+def id_dfs_rec_with_set(path, max_depth, goal):
     count = 0
     start = time.time()
     for depth in range(0, max_depth):
@@ -106,27 +106,36 @@ def id_dfs_rec_with_set(path, max_depth, case, goal):
         count += c
         if solution is not None:
             end = time.time()
-            return (f"Case Number: {case}\n"
-                    f"Number of moves to solve the case: {len(solution) - 1}\n"
-                    f"Number of nodes opened: {count}\n"
-                    f"Computation time: {end-start} secs\n"
-                    f"///////////////////////////////////////////////////")
+            return solution, len(solution) - 1, count, end-start
 
     end = time.time()
-    return None, count, f"Computation time: {end-start}"
+    return None, None, count, end-start
 
 # ID_DFS Cases 1-5, first goal state
-for index, case in enumerate([case_1, case_2, case_3, case_4, case_5]):
-    case_number = index + 1
-    print(id_dfs_rec_with_set([case], 35, case_number, first_goal))
-
-# ID_DFS Cases 1-5, second goal state
-for index, case in enumerate([case_6, case_7, case_8, case_9, case_10]):
-    case_number = index + 6
-    print(id_dfs_rec_with_set([case], 40, case_number, second_goal))
+# for index, case in enumerate([case_1, case_2, case_3, case_4, case_5]):
+#     case_number = index + 1
+#     print(id_dfs_rec_with_set([case], 35, case_number, first_goal))
+#
+# # ID_DFS Cases 1-5, second goal state
+# for index, case in enumerate([case_6, case_7, case_8, case_9, case_10]):
+#     case_number = index + 6
+#     print(id_dfs_rec_with_set([case], 40, case_number, second_goal))
 
 def solve_puzzle(start_state, goal_state):
+    path, moves, yields, execution_time = id_dfs_rec_with_set([start_state], 50, goal_state)
+    return moves, yields, execution_time, path
 
-    pass
+for index, case in enumerate([case_1, case_2, case_3, case_4, case_5, case_6, case_7, case_8, case_9, case_10]):
+    case_number = index + 1
+    goal_state = first_goal if case_number <= 5 else second_goal
 
+    moves, yields, execution_time, path = solve_puzzle(case, goal_state)
+
+    print(
+        f"Case Number: {case_number}\n"
+        f"Number of moves to solve the case: {len(path) - 1}\n"
+        f"Number of nodes opened: {yields}\n"
+        f"Computation time: {execution_time} secs\n"
+        f"///////////////////////////////////////////////////"
+    )
 
